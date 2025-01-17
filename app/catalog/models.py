@@ -1,9 +1,16 @@
+import os
+
+from django.core.files.storage import FileSystemStorage
 from django.db import models
+from django.conf import settings
+
+#COVERS_STORAGE = FileSystemStorage(location="/media/covers")
+COVERS_STORAGE = FileSystemStorage(location=os.path.join(settings.BASE_DIR, 'media/covers'))
 
 class MagazineIssue(models.Model):
     publication_date = models.DateField()
     issue_number = models.IntegerField()
-    front_cover = models.ImageField(upload_to=None, max_length=100, height_field=None, width_field=None)
+    front_cover = models.ImageField(storage=COVERS_STORAGE)
 
     def __str__(self):
         return f"{self.issue_number}"
