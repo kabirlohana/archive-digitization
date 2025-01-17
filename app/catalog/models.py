@@ -2,6 +2,7 @@ import os
 
 from django.core.files.storage import FileSystemStorage
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 from django.conf import settings
 
 #COVERS_STORAGE = FileSystemStorage(location="/media/covers")
@@ -9,7 +10,7 @@ COVERS_STORAGE = FileSystemStorage(location=os.path.join(settings.BASE_DIR, 'med
 
 class MagazineIssue(models.Model):
     publication_date = models.DateField()
-    issue_number = models.IntegerField()
+    issue_number = ArrayField(models.IntegerField(), blank=True, default=list)
     front_cover = models.ImageField(storage=COVERS_STORAGE)
 
     def __str__(self):
