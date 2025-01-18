@@ -11,6 +11,8 @@ ENV PYTHONUNBUFFERED 1
 # install system dependencies
 RUN apt-get update && apt-get install -y netcat
 
+RUN apt-get install -qq tesseract-ocr libtesseract-dev libleptonica-dev python3-distutils poppler-utils
+
 # install dependencies
 RUN pip install --upgrade pip
 COPY ./requirements.txt .

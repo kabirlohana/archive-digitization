@@ -13,8 +13,12 @@ class MagazineIssue(models.Model):
     issue_number = ArrayField(models.IntegerField(), blank=True, default=list)
     front_cover = models.ImageField(storage=COVERS_STORAGE)
 
+    class Meta:
+        ordering = ['issue_number']
+
     def __str__(self):
-        return f"{self.issue_number}"
+        issues = list(map(lambda x: str(x), self.issue_number))
+        return f"Issue: {','.join(issues)} - Publication_Date: {self.publication_date.strftime('%B/%Y')}"
 
 
 class MagazineArticle(models.Model):
