@@ -60,6 +60,7 @@ function MagazineArchive() {
         {showDecadeArrows && (
           <button
             onClick={scrollDecadesLeft}
+            
             className="bg-gray-800 text-white px-3 py-2 rounded-full hover:bg-gray-700"
           >
             &lt;
