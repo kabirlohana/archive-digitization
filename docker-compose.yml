@@ -23,5 +23,14 @@ services:
     depends_on:
       - db
 
+  frontend:
+    build: ./astro
+    ports:
+      - 3000:80
+    volumes:
+      - ./astro:/app  # Useful for development
+    depends_on:
+      - web
+
 volumes:
   postgres_data:
