@@ -16,10 +16,10 @@ function SearchBar() {
           <a
             key={year}
             href="#"
-            className={`hover:text-yellow-500 px-4 py-2 rounded-full transition ${
+            className={`hover:text-yellow-400 px-4 py-2 rounded-full transition ${
               selectedYear === year
                 ? "bg-yellow-500 text-gray-900 font-bold"
-                : "bg-gray-700"
+                : "bg-gray-700 text-yellow-500"
             }`}
             onClick={(e) => {
               e.preventDefault();
