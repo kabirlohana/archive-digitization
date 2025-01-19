@@ -8,7 +8,7 @@ const data = new Array(24).fill({
 function ContentGrid() {
   return (
     <div className="mt-12 px-4 sm:px-6 lg:px-8 bg-gray-900 min-h-screen">
-      <h3 className="text-4xl font-bold mb-10 text-white tracking-tight leading-tight">Popular on the Internet</h3>
+      <h3 className="text-4xl font-bold mb-10 text-white tracking-tight leading-tight">Magazine Issues</h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         {data.map((item, index) => (
           <div
