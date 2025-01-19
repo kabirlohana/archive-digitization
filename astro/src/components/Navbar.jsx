@@ -33,6 +33,7 @@ function Navbar({ showAdvancedSearch, setShowAdvancedSearch }) {
           </li>
         </ul>
       </div>
+      
     </nav>
   );
 }

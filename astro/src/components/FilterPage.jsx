@@ -39,7 +39,8 @@ const FilterPage = () => {
     }
     setResults(newResults);
   };
-
+  
+  
   return (
     <div className="w-full p-6 bg-white rounded-lg shadow-lg">
       {/* Filter Type Selection */}
