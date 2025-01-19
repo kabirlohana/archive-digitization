@@ -66,6 +66,7 @@ function MagazineArchive() {
           </button>
         )}
 
+
         {/* Decade Box-like Navigation */}
         <div
           ref={decadeScrollRef}
