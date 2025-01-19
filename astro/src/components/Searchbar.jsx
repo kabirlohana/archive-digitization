@@ -3,10 +3,10 @@ import React, { useRef, useState } from "react";
 function MagazineArchive() {
   const [selectedDecade, setSelectedDecade] = useState("2020s");
   const [selectedYear, setSelectedYear] = useState(2024);
-  const decadeScrollRef = useRef(null); // Ref for the decades scroll container
-  const yearScrollRef = useRef(null); // Ref for the years scroll container
+  const decadeScrollRef = useRef(null); 
+  const yearScrollRef = useRef(null); 
 
-  // Data for decades and years
+  
   const decades = {
     "2020s": [2020, 2021, 2022, 2023, 2024],
     "2010s": [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019],
@@ -27,7 +27,7 @@ function MagazineArchive() {
     setSelectedYear(decades[decade][0]);
   };
 
-  // Scroll function for Decades
+  
   const scrollDecadesLeft = () => {
     decadeScrollRef.current.scrollBy({ left: -200, behavior: "smooth" });
   };
@@ -36,7 +36,7 @@ function MagazineArchive() {
     decadeScrollRef.current.scrollBy({ left: 200, behavior: "smooth" });
   };
 
-  // Scroll function for Years
+  
   const scrollYearsLeft = () => {
     yearScrollRef.current.scrollBy({ left: -200, behavior: "smooth" });
   };
@@ -45,18 +45,18 @@ function MagazineArchive() {
     yearScrollRef.current.scrollBy({ left: 200, behavior: "smooth" });
   };
 
-  // Show arrows only if there are more than 12 decades or years
+ 
   const showDecadeArrows = Object.keys(decades).length > 12;
   const showYearArrows = decades[selectedDecade].length > 13;
 
   return (
     <div className="bg-gray-900 text-white p-8 flex flex-col justify-between">
-      {/* Magazine Title */}
+    \
       <h1 className="text-4xl font-bold text-center mb-8">Magazine Archive</h1>
 
-      {/* Decade Navigation with Arrows */}
+      
       <div className="flex justify-center space-x-6 text-lg font-medium mb-6">
-        {/* Left Arrow for Decades */}
+        
         {showDecadeArrows && (
           <button
             onClick={scrollDecadesLeft}
@@ -67,7 +67,7 @@ function MagazineArchive() {
         )}
 
 
-        {/* Decade Box-like Navigation */}
+        
         <div
           ref={decadeScrollRef}
           className="flex overflow-hidden whitespace-nowrap py-4 border-b border-gray-700 scroll-smooth scrollbar-hide"
@@ -87,7 +87,7 @@ function MagazineArchive() {
           ))}
         </div>
 
-        {/* Right Arrow for Decades */}
+        
         {showDecadeArrows && (
           <button
             onClick={scrollDecadesRight}
@@ -98,9 +98,9 @@ function MagazineArchive() {
         )}
       </div>
 
-      {/* Year Navigation with Arrows */}
+    
       <div className="flex items-center justify-center space-x-4">
-        {/* Left Arrow for Years */}
+        
         {showYearArrows && (
           <button
             onClick={scrollYearsLeft}
@@ -110,7 +110,7 @@ function MagazineArchive() {
           </button>
         )}
 
-        {/* Year Box-like Navigation */}
+        
         <div
           ref={yearScrollRef}
           className="flex overflow-hidden whitespace-nowrap py-4 border-b border-gray-700 scroll-smooth scrollbar-hide"
@@ -130,7 +130,7 @@ function MagazineArchive() {
           ))}
         </div>
 
-        {/* Right Arrow for Years */}
+      
         {showYearArrows && (
           <button
             onClick={scrollYearsRight}
@@ -141,7 +141,6 @@ function MagazineArchive() {
         )}
       </div>
 
-      {/* Selected Year Display */}
       <div className="text-center mt-8">
         <h2 className="text-3xl font-bold">Year: {selectedYear}</h2>
       </div>
