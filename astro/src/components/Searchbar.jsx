@@ -51,7 +51,7 @@ function MagazineArchive() {
 
   return (
     <div className="bg-gray-900 text-white p-8 flex flex-col justify-between">
-    \
+    
       <h1 className="text-4xl font-bold text-center mb-8">Magazine Archive</h1>
 
       
