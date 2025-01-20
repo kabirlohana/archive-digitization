@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from catalog.models import MagazineIssue
+from rest_framework import viewsets
 
-# Create your views here.
+from catalog.serializers import MagazineIssueSerializer
+
+class MagazineIssueViewSet(viewsets.ModelViewSet):
+    queryset = MagazineIssue.objects.all()
+    serializer_class = MagazineIssueSerializer
+
