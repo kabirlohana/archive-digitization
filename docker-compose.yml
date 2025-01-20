@@ -28,7 +28,7 @@ services:
     ports:
       - 3000:80
     volumes:
-      - ./astro:/app  # Useful for development
+      - ./astro:/usr/src/app  # Useful for development
     depends_on:
       - web
 

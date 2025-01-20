@@ -6,7 +6,7 @@ from django.contrib.postgres.fields import ArrayField
 from django.conf import settings
 
 #COVERS_STORAGE = FileSystemStorage(location="/media/covers")
-COVERS_STORAGE = FileSystemStorage(location=os.path.join(settings.BASE_DIR, 'media/covers'))
+COVERS_STORAGE = FileSystemStorage(location=settings.MEDIA_ROOT)
 
 class MagazineIssue(models.Model):
     publication_date = models.DateField()
@@ -16,9 +16,12 @@ class MagazineIssue(models.Model):
     class Meta:
         ordering = ['issue_number']
 
+    def get_publication_date(self):
+        return self.publication_date.strftime("%B/%Y")
+
     def __str__(self):
         issues = list(map(lambda x: str(x), self.issue_number))
-        return f"Issue: {','.join(issues)} - Publication_Date: {self.publication_date.strftime('%B/%Y')}"
+        return f"Issue: {','.join(issues)} - Publication_Date: {self.get_publication_date()}"
 
 
 class MagazineArticle(models.Model):
