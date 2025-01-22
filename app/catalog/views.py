@@ -3,8 +3,24 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from collections import defaultdict
+from django.db.models import Q
 
 from catalog.serializers import MagazineIssueSerializer
+
+def format_into_datetime(datetime_str):
+    from datetime import datetime
+    return datetime.strptime(datetime_str, '%B-%Y')
+
+def parse_issue_id(issue_id_str):
+    return {
+        "issue_number": int(issue_id_str.split("-")[0]),
+        "issue_year": int(issue_id_str.split("-")[1]),
+    }
+
+def get_q_object_for_issue_range(issue_range, parsed_issue_param):
+    return Q(issue_number__contained_by=issue_range,
+                           publication_date__year=parsed_issue_param["issue_year"])
+
 
 class MagazineIssueViewSet(ModelViewSet):
     queryset = MagazineIssue.objects.all()
@@ -33,3 +49,49 @@ class MagazineIssueViewSet(ModelViewSet):
 
         return Response(d)
 
+    @action(detail=False, methods=['get'])
+    def search(self, request):
+        date_begin = request.query_params.get('date_begin', None)
+        date_end = request.query_params.get('date_end', None)
+
+        issue_begin = request.query_params.get('issue_begin', None)
+        issue_end = request.query_params.get('issue_end', None)
+
+        if date_begin:
+            date_begin = format_into_datetime(date_begin)
+
+            if date_end:
+                date_end = format_into_datetime(date_end)
+                filter_query = Q(publication_date__range=(date_begin, date_end))
+            else:
+                filter_query=Q(publication_date=date_begin)
+
+            queryset = self.get_queryset().filter(filter_query)
+
+        if issue_begin:
+            parsed_issue_param = parse_issue_id(issue_begin)
+
+            if issue_end:
+                issue_begin_range = list(range(parsed_issue_param["issue_number"], 5))
+                filter_query_begin = get_q_object_for_issue_range(issue_begin_range,
+                                                                  parsed_issue_param)
+
+                parsed_issue_param_end = parse_issue_id(issue_end)
+                issue_end_range = list(range(1, parsed_issue_param_end["issue_number"]+1))
+                filter_query_end = get_q_object_for_issue_range(issue_end_range,
+                                                                parsed_issue_param_end)
+
+                queryset_begin = self.get_queryset().filter(filter_query_begin)
+                queryset_end = self.get_queryset().filter(filter_query_end)
+                queryset = queryset_begin.union(queryset_end)
+
+            else:
+                filter_query=get_q_object_for_issue_range([parsed_issue_param["issue_number"]],
+                                                          parsed_issue_param)
+                queryset = self.get_queryset().filter(filter_query)
+
+        queryset = queryset.order_by('publication_date')
+
+        serializer_output = self.serializer_class(queryset, many=True, context={'request': request}).data
+
+        return Response(serializer_output)
