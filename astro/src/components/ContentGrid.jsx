@@ -1,11 +1,33 @@
-import React from "react";
-
-const data = "http://localhost:8000/magazine_issue/"
+import React, { useEffect, useState } from "react";
 
 function ContentGrid({ selectedYear }) {
-  console.log('Content Grid Selected Year:', selectedYear); 
+  console.log('Content Grid Selected Year:', selectedYear);
 
-  const issues = data[selectedYear] || [];  
+  const [issues, setIssues] = useState([]);
+
+  // API URL (update with your actual API endpoint)
+  const API_URL = 'http://localhost:8000/magazine_issue/';
+
+  // Fetching data for selected year
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${API_URL}${selectedYear}`);
+        if (response.ok) {
+          const data = await response.json();
+          setIssues(data[selectedYear] || []);
+        } else {
+          console.error("Failed to fetch issues");
+        }
+      } catch (error) {
+        console.error("Error fetching issues:", error);
+      }
+    };
+
+    if (selectedYear) {
+      fetchData();
+    }
+  }, [selectedYear]);
 
   return (
     <div className="mt-12 px-4 sm:px-6 lg:px-8 bg-gray-900 min-h-screen">
@@ -34,6 +56,5 @@ function ContentGrid({ selectedYear }) {
     </div>
   );
 }
-
 
 export default ContentGrid;

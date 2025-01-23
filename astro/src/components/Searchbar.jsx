@@ -7,30 +7,36 @@ function MagazineArchive({ onYearSelect }) {
   const decadeScrollRef = useRef(null);
   const yearScrollRef = useRef(null);
 
-  // Sample JSON Data (simulate API response)
-  const sampleData = "http://localhost:8000/magazine_issue/decades/"
+  // API URL (update with your actual API endpoint)
+  const API_URL = 'http://localhost:8000/magazine_issue/decades/';
 
-  // Simulate fetching data from API
+  // Fetch data from the API
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = sampleData;
+        const response = await fetch(API_URL);
+        if (response.ok) {
+          const data = await response.json();
 
-        const formattedDecades = {};
-        const sortedDecades = Object.keys(data).sort((a, b) => a - b);
+          // Format decades (append 's' to the decade key)
+          const formattedDecades = {};
+          const sortedDecades = Object.keys(data).sort((a, b) => a - b);
 
-        sortedDecades.forEach((decade) => {
-          formattedDecades[`${decade}s`] = data[decade];
-        });
+          sortedDecades.forEach((decade) => {
+            formattedDecades[`${decade}s`] = data[decade];
+          });
 
-        setDecades(formattedDecades);
+          setDecades(formattedDecades);
 
-        // Set the first decade and year as selected
-        const firstDecade = Object.keys(formattedDecades)[0];
-        const firstYear = formattedDecades[firstDecade][0];
-        setSelectedDecade(firstDecade);
-        setSelectedYear(firstYear);
-        onYearSelect(firstYear); // Update selected year in parent component
+          // Set the first decade and year as selected
+          const firstDecade = Object.keys(formattedDecades)[0];
+          const firstYear = formattedDecades[firstDecade][0];
+          setSelectedDecade(firstDecade);
+          setSelectedYear(firstYear);
+          onYearSelect(firstYear); // Update selected year in parent component
+        } else {
+          console.error("Failed to fetch data");
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -128,19 +134,20 @@ function MagazineArchive({ onYearSelect }) {
           ref={yearScrollRef}
           className="flex overflow-hidden whitespace-nowrap py-4 border-b border-gray-700 scroll-smooth scrollbar-hide"
         >
-          {decades[selectedDecade]?.map((year) => (
-            <button
-              key={year}
-              onClick={() => handleYearClick(year)}
-              className={`inline-block px-4 py-2 mx-1 rounded-md font-semibold transition ${
-                selectedYear === year
-                  ? "text-red-500 underline decoration-4"
-                  : "text-gray-400 hover:text-red-500"
-              }`}
-            >
-              {year}
-            </button>
-          ))}
+          {Array.isArray(decades[selectedDecade]) &&
+            decades[selectedDecade]?.map((year) => (
+              <button
+                key={year}
+                onClick={() => handleYearClick(year)}
+                className={`inline-block px-4 py-2 mx-1 rounded-md font-semibold transition ${
+                  selectedYear === year
+                    ? "text-red-500 underline decoration-4"
+                    : "text-gray-400 hover:text-red-500"
+                }`}
+              >
+                {year}
+              </button>
+            ))}
         </div>
 
         {showYearArrows && (
