@@ -8,13 +8,7 @@ function MagazineArchive({ onYearSelect }) {
   const yearScrollRef = useRef(null);
 
   // Sample JSON Data (simulate API response)
-  const sampleData = {
-    "1990": [1992, 1993, 1994, 1990, 1996, 1997, 1999, 1998, 1991, 1995],
-    "2010": [2011, 2012, 2013, 2019, 2014, 2018, 2015, 2017, 2016, 2010],
-    "2020": [2020, 2021, 2023, 2022, 2025],
-    "2000": [2008, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2009],
-    "1980": [1988, 1989],
-  };
+  const sampleData = "http://localhost:8000/magazine_issue/decades/"
 
   // Simulate fetching data from API
   useEffect(() => {

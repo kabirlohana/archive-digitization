@@ -1,59 +1,6 @@
 import React from "react";
 
-const data = {
-  "1992": [
-    {
-      "url": "http://localhost:8000/magazine_issue/132/",
-      "publication_date": "January/1992",
-      "issue_number": [1],
-      "front_cover": "http://localhost:8000/media/1_-_January_1992.jpg"
-    },
-    {
-      "url": "http://localhost:8000/magazine_issue/134/",
-      "publication_date": "April/1992",
-      "issue_number": [2],
-      "front_cover": "http://localhost:8000/media/2_-_April_1992.jpg"
-    },
-    {
-      "url": "http://localhost:8000/magazine_issue/133/",
-      "publication_date": "July/1992",
-      "issue_number": [3],
-      "front_cover": "http://localhost:8000/media/3_-_July_1992.jpg"
-    },
-    {
-      "url": "http://localhost:8000/magazine_issue/131/",
-      "publication_date": "October/1992",
-      "issue_number": [4],
-      "front_cover": "http://localhost:8000/media/4_-_October_1992.jpg"
-    }
-  ],
-  "2011": [
-    {
-      "url": "http://localhost:8000/magazine_issue/194/",
-      "publication_date": "March/2011",
-      "issue_number": [1],
-      "front_cover": "http://localhost:8000/media/1_-_March_2011.jpg"
-    },
-    {
-      "url": "http://localhost:8000/magazine_issue/195/",
-      "publication_date": "June/2011",
-      "issue_number": [2],
-      "front_cover": "http://localhost:8000/media/2_-_June_2011.jpg"
-    },
-    {
-      "url": "http://localhost:8000/magazine_issue/251/",
-      "publication_date": "September/2011",
-      "issue_number": [3],
-      "front_cover": "http://localhost:8000/media/3_-_September_2011.jpg"
-    },
-    {
-      "url": "http://localhost:8000/magazine_issue/196/",
-      "publication_date": "December/2011",
-      "issue_number": [4],
-      "front_cover": "http://localhost:8000/media/4_-_December_2011.jpg"
-    }
-  ]
-};
+const data = "http://localhost:8000/magazine_issue/"
 
 function ContentGrid({ selectedYear }) {
   console.log('Content Grid Selected Year:', selectedYear); 
