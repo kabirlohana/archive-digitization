@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import ContentGrid from "./ContentGrid";
 
-// Assuming your API URL is something like this
-const API_URL = "http://localhost:8000/magazine_issue/";
+const API_URL = "http://localhost:8000/magazine_issue/search/";
 
 const FilterPage = () => {
   const [filterType, setFilterType] = useState("month"); // 'month' or 'issue'
@@ -15,33 +14,12 @@ const FilterPage = () => {
   const [endIssue, setEndIssue] = useState("");
   const [endIssueYear, setEndIssueYear] = useState("");
   const [results, setResults] = useState([]);
-  const [data, setData] = useState([]); // To store fetched data
-  const [loading, setLoading] = useState(true); // Loading state for data fetching
+  const [loading, setLoading] = useState(false); // Loading state for search
   const [error, setError] = useState(null); // Error state
-
-  // Fetch data from API when component mounts
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(API_URL);
-        if (!response.ok) {
-          throw new Error("Failed to fetch data");
-        }
-        const result = await response.json();
-        setData(result); // Store the fetched data
-      } catch (err) {
-        setError(err.message); // Handle errors
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []); // Empty dependency array to run only on mount
 
   const handleFilterTypeChange = (e) => {
     const selectedType = e.target.value;
     setFilterType(selectedType);
-    // Reset all filter values when changing filter type
     setStartMonth("");
     setStartYear("");
     setEndMonth("");
@@ -52,44 +30,46 @@ const FilterPage = () => {
     setEndIssueYear("");
   };
 
-  const handleSearch = () => {
-    let filteredResults = [];
-    if (filterType === "month") {
-      if (startMonth && startYear && endMonth && endYear) {
-        const startDate = new Date(`${startMonth}-01-${startYear}`);
-        const endDate = new Date(`${endMonth}-01-${endYear}`);
-        filteredResults = data.filter((item) => {
-          const [month, year] = item.publication_date.split("/");
-          const itemDate = new Date(`${month}-01-${year}`);
-          return itemDate >= startDate && itemDate <= endDate;
-        });
-      } else {
-        alert("Please select both start and end months and years.");
-      }
-    } else if (filterType === "issue") {
-      if (startIssue && startIssueYear && endIssue && endIssueYear) {
-        const startIssueNumber = parseInt(startIssue);
-        const endIssueNumber = parseInt(endIssue);
-        const startYearNumber = parseInt(startIssueYear);
-        const endYearNumber = parseInt(endIssueYear);
+  const handleSearch = async () => {
+    setLoading(true);
+    setError(null);
+    setResults([]);
 
-        filteredResults = data.filter((item) => {
-          const issueNumber = item.issue_number[0];
-          const [, year] = item.publication_date.split("/");
-          const itemYear = parseInt(year);
-          return (
-            (itemYear > startYearNumber || (itemYear === startYearNumber && issueNumber >= startIssueNumber)) &&
-            (itemYear < endYearNumber || (itemYear === endYearNumber && issueNumber <= endIssueNumber))
-          );
-        });
-      } else {
-        alert("Please select issue numbers and years for both start and end.");
+    try {
+      let params = "";
+
+      if (filterType === "month") {
+        if (startMonth && startYear && endMonth && endYear) {
+          params = `?date_begin=${startMonth}-${startYear}&date_end=${endMonth}-${endYear}`;
+        } else {
+          alert("Please select both start and end months and years.");
+          setLoading(false);
+          return;
+        }
+      } else if (filterType === "issue") {
+        if (startIssue && startIssueYear && endIssue && endIssueYear) {
+          params = `?issue_begin=${startIssue}&issue_year_begin=${startIssueYear}&issue_end=${endIssue}&issue_year_end=${endIssueYear}`;
+        } else {
+          alert("Please select issue numbers and years for both start and end.");
+          setLoading(false);
+          return;
+        }
       }
+
+      const response = await fetch(`${API_URL}${params}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch search results");
+      }
+
+      const result = await response.json();
+      setResults(result);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
-    setResults(filteredResults);
   };
 
-  // Handle loading and error states
   if (loading) return <p className="text-white">Loading...</p>;
   if (error) return <p className="text-white">Error: {error}</p>;
 
