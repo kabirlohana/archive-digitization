@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import ContentGrid from "./components/ContentGrid";
 import FilterPage from "./components/FilterPage";
 import SearchBar from "./components/Searchbar";
+import MagazineApp from "./components/parentfile";
 
 function App() {
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
@@ -20,8 +21,8 @@ function App() {
           <FilterPage />
         ) : (
           <>
-            <SearchBar />
-            <ContentGrid />
+            <MagazineApp/>
+            {/* <ContentGrid /> */}
           </>
         )}
       </div>
