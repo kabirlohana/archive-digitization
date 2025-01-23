@@ -8,7 +8,7 @@ function Navbar({ showAdvancedSearch, setShowAdvancedSearch }) {
           Filtr Kommunikation
         </h1>
         <ul className="flex space-x-6 text-white">
-          <li>
+          {/* <li>
             <a href="#" className="hover:text-gray-400">
               Home
             </a>
@@ -22,7 +22,7 @@ function Navbar({ showAdvancedSearch, setShowAdvancedSearch }) {
             <a href="#" className="hover:text-gray-400">
               Albums
             </a>
-          </li>
+          </li> */}
           <li>
             <button
               onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
