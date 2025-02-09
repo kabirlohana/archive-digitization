@@ -35,10 +35,10 @@ const FilterPage = () => {
     setLoading(true);
     setError(null);
     setResults([]);
-
+  
     try {
       let params = "";
-
+  
       if (filterType === "month") {
         if (startMonth && startYear && endMonth && endYear) {
           params = `?date_begin=${startMonth}-${startYear}&date_end=${endMonth}-${endYear}`;
@@ -49,19 +49,19 @@ const FilterPage = () => {
         }
       } else if (filterType === "issue") {
         if (startIssue && startIssueYear && endIssue && endIssueYear) {
-          params = `?issue_begin=${startIssue}&issue_year_begin=${startIssueYear}&issue_end=${endIssue}&issue_year_end=${endIssueYear}`;
+          params = `?issue_begin=${startIssue}-${startIssueYear}&issue_end=${endIssue}-${endIssueYear}`;
         } else {
           alert("Please select issue numbers and years for both start and end.");
           setLoading(false);
           return;
         }
       }
-
+  
       const response = await fetch(`${API_URL}${params}`);
       if (!response.ok) {
         throw new Error("Failed to fetch search results");
       }
-
+  
       const result = await response.json();
       setResults(result);
     } catch (err) {
@@ -70,6 +70,7 @@ const FilterPage = () => {
       setLoading(false);
     }
   };
+  
 
   if (loading) return <p className="text-white">Loading...</p>;
   if (error) return <p className="text-white">Error: {error}</p>;
@@ -212,7 +213,8 @@ const FilterPage = () => {
       {/* Results Display */}
       <div className="mt-6">
         {results.length > 0 ? (
-          <FilterPageContent items={results} />
+           <FilterPageContent items={results} loading={loading} />
+ 
         ) : (
           <p className="text-gray-500">No results found. Try adjusting your filters.</p>
         )}

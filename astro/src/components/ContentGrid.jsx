@@ -51,7 +51,7 @@ function ContentGrid({ selectedYear }) {
             >
               <div className="p-6 space-y-4">
                 <h4 className="text-2xl font-semibold text-gray-100">{item.publication_date}</h4>
-                <img src={item.front_cover} alt={`Issue ${item.issue_number}`} className="w-full h-56 object-cover rounded-md" />
+                <img src={item.front_cover} alt={`Issue ${item.issue_number}`}  className="w-full h-56 object-contain rounded-md" />
                 <a
                   href={item.url}
                   className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors duration-200"
