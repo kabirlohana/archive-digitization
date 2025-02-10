@@ -214,6 +214,7 @@ const FilterPage = () => {
       <div className="mt-6">
         {results.length > 0 ? (
            <FilterPageContent items={results} loading={loading} />
+           
  
         ) : (
           <p className="text-gray-500">No results found. Try adjusting your filters.</p>
