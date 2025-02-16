@@ -49,6 +49,36 @@ class MagazineIssueViewSet(ModelViewSet):
 
         return Response(d)
 
+
+    @action(detail=False, methods=['get'])
+    def filter_values(self, request):
+        import calendar
+
+        qs = self.get_queryset()
+
+        issue_lst, year_lst, months_lst = (
+            qs.values_list('issue_number', flat=True).distinct(),
+            qs.values_list('publication_date__year', flat=True).distinct(),
+            qs.values_list('publication_date__month', flat=True).distinct()
+        )
+
+        issues=set()
+        for inner_lst in issue_lst:
+            for element in inner_lst:
+                issues.add(element)
+
+        months_lst = list(set([calendar.month_name[month_num] for month_num in months_lst]))
+
+        d = {
+            'issues': list(issues),
+            'years': list(set(year_lst)),
+            'months': months_lst
+        }
+
+        return Response(d)
+
+
+
     @action(detail=False, methods=['get'])
     def search(self, request):
         date_begin = request.query_params.get('date_begin', None)
