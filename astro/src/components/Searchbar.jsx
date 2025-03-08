@@ -8,7 +8,7 @@ function MagazineArchive({ onYearSelect }) {
   const yearScrollRef = useRef(null);
 
   // API URL (update with your actual API endpoint)
-  const API_URL = 'http://localhost:8000/magazine_issue/decades/';
+  const API_URL = 'api/magazine_issue/decades/';
 
   // Fetch data from the API
   useEffect(() => {
