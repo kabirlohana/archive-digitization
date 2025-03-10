@@ -6,7 +6,7 @@ function ContentGrid({ selectedYear }) {
   const [issues, setIssues] = useState([]);
 
   // API URL (update with your actual API endpoint)
-  const API_URL = 'http://localhost:8000/magazine_issue/';
+  const API_URL = 'api/magazine_issue/';
 
   // Fetching data for selected year
   useEffect(() => {

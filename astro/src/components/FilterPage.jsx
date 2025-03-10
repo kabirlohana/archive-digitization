@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import ContentGrid from "./ContentGrid";
 import FilterPageContent from "./FilterPageContent";
 
-const API_URL = "http://localhost:8000/magazine_issue/search/";
+const API_URL = "api/magazine_issue/search/";
 const FILTER_API_URL = "api/magazine_issue/filter_values/";
 
 const FilterPage = () => {
