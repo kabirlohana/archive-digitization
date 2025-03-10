@@ -5,7 +5,7 @@ function Navbar({ showAdvancedSearch, setShowAdvancedSearch }) {
     <nav className="bg-gray-800 shadow-md">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         <h1 className="text-3xl font-bold text-white">
-          Filtr Kommunikation
+          FifF Kommunikation
         </h1>
         <ul className="flex space-x-6 text-white">
           {/* <li>

@@ -29,4 +29,7 @@ function MagazineApp() {
   );
 }
 
+  
+
+
 export default MagazineApp;
