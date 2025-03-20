@@ -32,5 +32,15 @@ services:
     depends_on:
       - web
 
+  redoc:
+    image: redocly/redoc
+    container_name: redoc
+    ports:
+      - "8080:80"
+    volumes:
+      - ./app/openapi.yaml:/usr/share/nginx/html/openapi.yaml
+    environment:
+      SPEC_URL: "/openapi.yaml"
+
 volumes:
   postgres_data:
