@@ -12,6 +12,7 @@ class MagazineIssue(models.Model):
     publication_date = models.DateField()
     issue_number = ArrayField(models.IntegerField(), blank=True, default=list)
     front_cover = models.ImageField(storage=COVERS_STORAGE)
+    pdf_file = models.FileField(storage=COVERS_STORAGE, null=True)
 
     class Meta:
         ordering = ['issue_number']
@@ -22,7 +23,7 @@ class MagazineIssue(models.Model):
     def __str__(self):
         issues = list(map(lambda x: str(x), self.issue_number))
         return f"Issue: {','.join(issues)} - Publication_Date: {self.get_publication_date()}"
-
+        
 
 class MagazineArticle(models.Model):
     issue = models.ForeignKey('MagazineIssue', on_delete=models.CASCADE)
@@ -53,5 +54,3 @@ class ArticleTag(models.Model):
 
 class Tag(models.Model):
     name = models.CharField(max_length=30)
-
-
