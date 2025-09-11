@@ -26,7 +26,7 @@ services:
   frontend:
     build: ./astro
     ports:
-      - 3000:80
+      - 4321:4321
     volumes:
       - ./astro:/usr/src/app  # Useful for development
     depends_on:
