@@ -1,5 +1,5 @@
-# Use Node.js for building Astro.js
-FROM node:18 as build
+# Use Node.js for building and serving
+FROM node:18
 
 # Set working directory
 WORKDIR /app
@@ -14,13 +14,8 @@ COPY . .
 # Build the Astro app
 RUN npm run build
 
-# Use a lightweight web server to serve the built app
-FROM nginx:alpine
-COPY --from=build /app/dist /usr/share/nginx/html
+# Expose the port Astro server will run on
+EXPOSE 4321
 
-# Expose port 80 for the web server
-EXPOSE 80
-
-# Start Nginx
-CMD ["nginx", "-g", "daemon off;"]
-
+# Start Astro server
+CMD ["npm", "start"]
