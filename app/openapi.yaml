@@ -1,0 +1,139 @@
+openapi: 3.0.0
+info:
+  title: FifF Kommunikation Archiv APIs
+  description: Documentation elaborating all the APIs that power the backend of the FifF Kommunication Archives platform
+  version: 1.0.0
+
+paths:
+  /magazine_issue/:
+    get:
+      summary: Get all the magazine issues
+      description: "Retrieves all the magazine issues and their important metadata in a single call. 
+      The response is neatly arranged in an object, in which all issues are sorted into arrays as per their publishing years."
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: array
+                  description: "A dictionary where keys are years (as integers) and values are arrays of objects."
+                  items:
+                    $ref: "#/components/schemas/MagazineIssueMetadata"
+
+  /magazine_issue/decades/:
+    get:
+      summary: Get a list of the decades of publication
+      description: "Retrieves all the publication decades and years for which we have magazine issues in the database. 
+      Returns an object where all all publication years and sorted and keyed as per their decade."
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: array
+                  description: "A dictionary where keys are whole number years (as integers) 
+                  and values are arrays of years under each decade."
+                  items:
+                    type: number
+
+  /magazine_issue/filter_values/:
+    get:
+      summary: Get all the values for populating the ranges used for filtering and searching.
+      description: "Retrieves all the values from the database and used to populate the filter ranges so any filtering
+      happens on updated values against which we have data to serve."
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  issues:
+                    type: array
+                    items:
+                      type: number
+                    description: An array with all the possible issue numbers we have populated
+                  years:
+                    type: array
+                    items:
+                      type: number
+                    description: An array with all the publication years we have populated
+                  months:
+                    type: array
+                    items:
+                      type: string
+                    description: An array containing all the publication months we have populated
+
+  /magazine_issue/search/:
+    get:
+      summary: Get the results of a specific filter query.
+      description: "Retrieves the magazine issues fulfilling a certain filter query. It needs to passed parameters that
+      set the criteria for the results. Each query makes database calls and gets the results. Each filter query can be 
+      according to a certain fixed criteria (date or issue etc.). Hence, the relevant parameter pair needs to be sent."
+      parameters:
+        - in: path
+          name: date_begin
+          schema:
+            type: string
+          required: false
+          description: "The month and year of publication separated by a slash ('-') 
+          from which the range of values have to start, without quotes"
+        - in: path
+          name: date_end
+          schema:
+            type: string
+          required: false
+          description: "The month and year of publication separated by a slash ('-') 
+          on which the range of values have to end, without quotes"
+        - in: path
+          name: issue_begin
+          schema:
+            type: string
+          required: false
+          description: "The issue number and year of publication separated by a slash ('-') 
+          from which the range of values have to start, without quotes"
+        - in: path
+          name: issue_end
+          schema:
+            type: string
+          required: false
+          description: "The issue number and year of publication separated by a slash ('-') 
+          on which the range of values have to end, without quotes"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MagazineIssueMetadata"
+
+
+
+components:
+  schemas:
+    MagazineIssueMetadata:
+      type: object
+      properties:
+        url:
+          type: string
+          description: The URL path to serve the dedicated webpage for the magazine issue
+        publication_date:
+          type: string
+          description: The month and year of the issue's publication, separated by a slash
+        issue_number:
+          type: array
+          items:
+            type: number
+          description: An array containing the magazine issue's designated issue number(s)
+        front_cover:
+          type: string
+          description: The path to serve the dedicated cover of the magazine issue
