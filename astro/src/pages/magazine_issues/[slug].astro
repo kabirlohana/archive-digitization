@@ -12,7 +12,7 @@ const API_URL = 'api/magazine_issue/';
 export async function getStaticPaths() {
   console.error("📣 getStaticPaths running");
 
-  const res = await fetch(`${API_URL}`);
+  const res = await fetch('http://host.docker.internal:8000/magazine_issue/');
   const data = await res.json();
   const allLinks = Object.values(data).flat() as { url: string }[];
 
@@ -23,19 +23,19 @@ export async function getStaticPaths() {
       if (!slug) return null;
 
       const issueRes = await fetch(
-        `${API_URL}/${slug}/`
+        `http://host.docker.internal:8000/magazine_issue/${slug}/`
       );
       const issueData = await issueRes.json();
 
-    //   const front_cover = issueData.front_cover.replace(
-    //     'host.docker.internal:8000',
-    //     'localhost:8000'
-    //   );
+      const front_cover = issueData.front_cover.replace(
+        'host.docker.internal:8000',
+        'localhost:8000'
+      );
 
-    //   const pdf_file = issueData.pdf_file.replace(
-    //     'host.docker.internal:8000',
-    //     'localhost:8000'
-    //   );
+      const pdf_file = issueData.pdf_file.replace(
+        'host.docker.internal:8000',
+        'localhost:8000'
+      );
 
       return {
         params: { slug },

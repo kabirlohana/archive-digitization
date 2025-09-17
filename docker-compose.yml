@@ -11,6 +11,9 @@ services:
       - POSTGRES_USER=hello_django
       - POSTGRES_PASSWORD=hello_django
       - POSTGRES_DB=hello_django_dev
+    networks:
+      - my_network
+
   web:
     build: ./app
     command: python manage.py runserver 0.0.0.0:8000
@@ -22,6 +25,8 @@ services:
       - ./.env.dev
     depends_on:
       - db
+    networks:
+      - my_network
 
   frontend:
     build: ./astro
@@ -31,6 +36,11 @@ services:
       - ./astro:/usr/src/app  # Useful for development
     depends_on:
       - web
+    networks:
+      - my_network
 
 volumes:
   postgres_data:
+
+networks:
+  my_network
