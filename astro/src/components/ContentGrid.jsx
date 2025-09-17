@@ -6,7 +6,7 @@ function ContentGrid({ selectedYear }) {
   const [issues, setIssues] = useState([]);
 
   // API URL (update with your actual API endpoint)
-  const API_URL = 'api/magazine_issue/';
+  const API_URL = 'http://localhost:8000/magazine_issue/';
 
   // Fetching data for selected year
   useEffect(() => {
@@ -53,7 +53,7 @@ function ContentGrid({ selectedYear }) {
                 <h4 className="text-2xl font-semibold text-gray-100">{item.publication_date}</h4>
                 <img src={item.front_cover} alt={`Issue ${item.issue_number}`}  className="w-full h-56 object-contain rounded-md" />
                 <a
-                  href={item.url}
+                  href={`/magazine_issues/${item.url.split('/')[4]}`}
                   className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors duration-200"
                 >
                   Explore

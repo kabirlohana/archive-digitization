@@ -43,4 +43,4 @@ volumes:
   postgres_data:
 
 networks:
-  my_network
+  my_network:

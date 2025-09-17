@@ -45,7 +45,7 @@ function FilterPageContent({ items, loading }) {
                   Publication Date: {item.publication_date}
                 </p>
                 <a
-                  href={item.url}
+                  href={`/magazine_issues/${item.url.split('/')[4]}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors duration-200"
